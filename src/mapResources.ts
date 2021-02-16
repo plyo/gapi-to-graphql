@@ -1,30 +1,26 @@
 import { keyMap, keys, upperFirst } from './utils'
-import { GraphQLString, GraphQLObjectType } from 'graphql'
+import { GraphQLObjectType, GraphQLString } from 'graphql'
 import { mapParametersToArguments } from './mapParametersToArguments'
 import makeApiRequest from './request'
-import { Context } from '.'
-import { resolve } from 'url'
 
-const mapResources = (resources, graphQLTypes, resourceResolvers, resolverMap) => {
+const mapResources = (resources, graphQLTypes, resourceResolvers, resolverMap, requestTypes) => {
   return keyMap(resources, (resource, resourceDetails) => {
     const resourceName = `${upperFirst(resource)}_`
 
     const mapMethod = (methodName, methodValue) => {
       const { description, parameters, httpMethod, path, request, response, supportsMediaDownload } = methodValue
 
-      if (httpMethod !== 'GET') {
-        return null
-      }
-
+      requestTypes.push(request ? graphQLTypes[request.$ref] : GraphQLString);
       const resolve = async (parent, args, ctx) => {
         const { rootArgs, rootDefinitions, baseUrl } = parent
 
         return await makeApiRequest({
           definitions: { ...rootDefinitions, ...parameters },
-          args: { ...rootArgs, ...args },
+          args: { ...rootArgs.auth, ...args },
           baseUrl,
           path,
-          httpMethod
+          httpMethod,
+          body: rootArgs.request,
         })
       }
 

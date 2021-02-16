@@ -2,7 +2,7 @@ import axios from 'axios'
 import { keys } from './utils'
 import { debugResovers } from './debugger'
 
-export default async ({ definitions, args, baseUrl, path, httpMethod }) => {
+export default async ({ definitions, args, baseUrl, path, httpMethod, body }) => {
   const params = {}
   keys(args).forEach(key => {
     const { type, location } = definitions[key]
@@ -23,7 +23,8 @@ export default async ({ definitions, args, baseUrl, path, httpMethod }) => {
       url: path,
       method: httpMethod,
       params,
-      baseURL: baseUrl
+      baseURL: baseUrl,
+      data: body,
     })
 
     return data
