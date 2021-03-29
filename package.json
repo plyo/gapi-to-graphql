@@ -2,7 +2,7 @@
   "name": "@plyo/gapi-to-graphql",
   "author": "rlancer",
   "license": "MIT",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Converts any Google Data API to GraphQL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
