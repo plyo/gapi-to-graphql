@@ -31,13 +31,14 @@ const mapApi = (apiJson, context: Context) => {
       fields: {
         [`${upperFirst(name)}Api`]: {
           args: {
-            auth: {
-              type: new GraphQLInputObjectType({
-                name: queryTypeName + 'Auth',
-                fields: mapParametersToArguments(parameters, 'Root')
-              }),
-              description: 'Auth details for request'
-            },
+            // we do not need to provide google auth options for GQL client
+            // auth: {
+            //   type: new GraphQLInputObjectType({
+            //     name: queryTypeName + 'Auth',
+            //     fields: mapParametersToArguments(parameters, 'Root')
+            //   }),
+            //   description: 'Auth details for request'
+            // },
             request: {
               type: schemaComposer.createObjectTC(requestTypes[0]).getInputType(),
               description: 'Request body'
