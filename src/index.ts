@@ -24,3 +24,5 @@ export default ({ gapiAsJsonSchema }: IEntryParams) => {
 
   return mapApi(gapiAsJsonSchema, context)
 }
+
+export { default as axios } from 'axios';
